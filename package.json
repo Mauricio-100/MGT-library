@@ -1,0 +1,20 @@
+{
+  "name": "mgt-library",
+  "version": "1.0.0",
+  "description": "Un gestionnaire de modèles IA pour accéder à une sélection de modèles Hugging Face avec un système de leasing.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node example.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "huggingface",
+    "ai",
+    "llm",
+    "mistral",
+    "gemma",
+    "api"
+  ],
+  "author": "Mauricio-100",
+  "license": "MIT",
+}
