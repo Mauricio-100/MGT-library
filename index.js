@@ -1,55 +1,52 @@
-// index.js
+// index.js (version améliorée)
 
-/**
- * Crée un Store qui contient l'état complet de l'application.
- * Il n'y a qu'un seul Store dans une application Redux.
- * @param {Function} reducer Une fonction qui retourne le prochain état, en fonction de l'état précédent et d'une action.
- */
-function createStore(reducer) {
-  // --- Pilier 1 : La Source Unique de Vérité ---
-  // L'état est une variable privée, accessible uniquement via getState().
-  let state;
-  let listeners = []; // Une liste des fonctions à appeler quand l'état change
+// La fonction applyMiddleware est un "enhancer" de store.
+// Elle prend le middleware et retourne une fonction qui prend createStore.
+function applyMiddleware(middleware) {
+  return function(createStore) {
+    return function(reducer) {
+      const store = createStore(reducer);
+      let dispatch = store.dispatch; // On garde une référence au dispatch original
 
-  // La seule façon de LIRE l'état.
-  function getState() {
-    return state;
+      // On prépare une API pour le middleware
+      const middlewareAPI = {
+        getState: store.getState,
+        // Le dispatch que le middleware verra...
+        // ... sera une version qui relance le cycle complet.
+        dispatch: (action) => dispatch(action) 
+      };
+
+      // On passe l'API au middleware, qui nous retourne une version "améliorée"
+      // de la fonction dispatch.
+      dispatch = middleware(middlewareAPI)(store.dispatch);
+
+      // On retourne le store, mais on remplace son dispatch par notre
+      // version améliorée qui passe d'abord par le middleware.
+      return {
+        ...store,
+        dispatch
+      };
+    }
   }
+}
 
-  // --- Pilier 2 : L'État est en Lecture Seule ---
-  // La seule façon de MODIFIER l'état est de "dispatcher" une action.
+function createStore(reducer) {
+  // ... (le code de createStore reste le même qu'avant) ...
+  let state;
+  let listeners = [];
+  function getState() { return state; }
   function dispatch(action) {
-    // On passe l'état actuel et l'action au reducer...
-    // ...pour qu'il calcule le NOUVEL état.
-    // C'est ici que l'on applique le Pilier 3 (Fonctions Pures).
     state = reducer(state, action);
-
-    // On prévient tous les "abonnés" qu'un changement a eu lieu.
     listeners.forEach(listener => listener());
   }
-
-  // Permet à l'UI (ou autre) de s'abonner aux changements du Store.
-  // Chaque fois que dispatch est appelé, la fonction "listener" sera exécutée.
   function subscribe(listener) {
     listeners.push(listener);
-
-    // Retourne une fonction pour se désabonner, c'est une bonne pratique.
     return function unsubscribe() {
       listeners = listeners.filter(l => l !== listener);
     };
   }
-  
-  // Au démarrage, on dispatche une action "INIT" pour que le reducer
-  // retourne l'état initial de l'application.
   dispatch({ type: '@@DRAGON_STORE/INIT' });
-
-  // On retourne l'API publique de notre Store.
-  return {
-    getState,
-    dispatch,
-    subscribe
-  };
+  return { getState, dispatch, subscribe };
 }
 
-// On exporte notre fonction pour qu'elle puisse être utilisée ailleurs.
-module.exports = { createStore };
+module.exports = { createStore, applyMiddleware };
