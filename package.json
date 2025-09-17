@@ -7,6 +7,10 @@
     "start": "node example.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mauricio-100/MGT-library.git"
+  },
   "keywords": [
     "huggingface",
     "ai",
@@ -17,4 +21,12 @@
   ],
   "author": "Mauricio-100",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Mauricio-100/MGT-library/issues"
+  },
+  "homepage": "https://github.com/Mauricio-100/MGT-library#readme",
+  "dependencies": {
+    "@huggingface/inference": "^2.7.0",
+    "dotenv": "^16.4.5"
+  }
 }
