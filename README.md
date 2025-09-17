@@ -71,10 +71,10 @@ npm install mgt-library```
 
     main();
     ```
-```
-
-## API
-
+    ```
+---------
+| ## API|
+---------
 -   `new MGTManager(accessToken)` : Crée une nouvelle instance du gestionnaire.
 -   `acquireModel(modelName)` : Verrouille un modèle du catalogue pour utilisation. Lance une erreur si un modèle est déjà actif.
 -   `releaseModel()` : Libère le modèle actuellement actif.
@@ -82,9 +82,9 @@ npm install mgt-library```
 -   `getActiveModel()` : Retourne des informations sur le modèle actuellement acquis, ou `null`.
 
 ## Contribuer
-
+-------------------------------------
 Les contributions sont les bienvenues ! Veuillez lire notre [Code de Conduite](CODE_OF_CONDUCT.md) avant de participer.
 
 ## Licence
-
+-------------------------------------
 Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de détails.
