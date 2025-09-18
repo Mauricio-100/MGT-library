@@ -1,12 +1,12 @@
 {
-  "name": "mgt-library",
+  "name": "dragon-cli-tool",
   "version": "1.0.0",
-  "description": "Un gestionnaire de modèles IA pour accéder à une sélection de modèles Hugging Face avec un système de leasing.",
+  "description": "Un robot CLI pour interagir avec la base de données Dragon-Store.",
   "main": "index.js",
   "bin": {
-        "dragon-cli": "./cli.js"
+    "dragon-cli": "./cli.js"
+  },
   "scripts": {
-    "start": "node example.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -14,21 +14,17 @@
     "url": "git+https://github.com/Mauricio-100/MGT-library.git"
   },
   "keywords": [
-    "huggingface",
-    "ai",
-    "llm",
-    "mistral",
-    "gemma",
-    "api"
+    "cli",
+    "database",
+    "redux",
+    "state-management"
   ],
   "author": "Mauricio-100",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Mauricio-100/MGT-library/issues"
-  },
-  "homepage": "https://github.com/Mauricio-100/MGT-library#readme",
   "dependencies": {
-    "@huggingface/inference": "^2.7.0",
-    "dotenv": "^16.4.5"
+    "chalk": "^4.1.2",
+    "commander": "^8.3.0",
+    "dotenv": "^16.4.5",
+    "mysql2": "^2.3.3"
   }
 }
