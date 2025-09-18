@@ -1,0 +1,26 @@
+
+
+**Son rôle :** Dire à npm quels fichiers et dossiers exclure lorsque tu **publies** ton paquet avec `npm publish`. C'est ta dernière barrière de sécurité pour t'assurer que des fichiers secrets ou inutiles ne se retrouvent pas dans le paquet que les autres téléchargeront.
+
+**Règle importante :** Si un fichier `.npmignore` existe, npm l'utilisera. S'il n'existe pas, npm utilisera à la place ton fichier `.gitignore`.
+
+C'est une bonne pratique d'avoir un `.npmignore` spécifique pour être très clair sur ce que tu publies.
+
+**Crée un fichier nommé `.npmignore`** à la racine de ton projet et mets-y ce contenu :
+
+```gitignore
+# Fichier de secrets - DOUBLE SÉCURITÉ
+# Même si Git l'ignore, on s'assure que npm l'ignore aussi.
+.env
+
+# Fichiers de configuration du projet qui ne sont pas utiles dans le paquet final
+.gitignore
+.npmignore
+
+# Scripts de test ou d'exemple
+# Les personnes qui installent ta bibliothèque n'ont pas besoin de tes exemples.
+example.js
+
+# Tout autre script de développement
+# Si tu as des scripts pour chiffrer, tester, etc., ajoute-les ici.
+encrypt-token.js
