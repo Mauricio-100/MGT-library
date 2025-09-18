@@ -1,12 +1,16 @@
+// example.js (Version finale adaptée à TA table)
+
 const { createStore, applyMiddleware, thunkMiddleware } = require('./index.js');
 const mysql = require('mysql2/promise');
-require('dotenv').config(); // Pour charger le .env
+require('dotenv').config();
 
 // --- 1. La Connexion à la Base de Données ---
+// (Aucun changement ici, elle utilise ton .env)
 const dbPool = mysql.createPool(process.env.DB_URL);
 console.log('Connexion à la base de données initialisée...');
 
 // --- 2. L'État Initial et le Reducer ---
+// On définit la forme de notre état pour correspondre aux données de la DB.
 const initialState = {
   users: {
     loading: false,
@@ -15,6 +19,7 @@ const initialState = {
   }
 };
 
+// Ce reducer est assez intelligent pour fonctionner sans modification !
 function usersReducer(state = initialState, action) {
   switch (action.type) {
     case 'FETCH_USERS_REQUEST':
@@ -29,26 +34,24 @@ function usersReducer(state = initialState, action) {
 }
 
 // --- 3. Création du Store AVEC le Middleware ---
+// (Aucun changement ici)
 const store = createStore(
   usersReducer,
-  applyMiddleware(thunkMiddleware) // On applique notre "inspecteur" asynchrone
+  applyMiddleware(thunkMiddleware)
 );
 
-// --- 4. L'Action Asynchrone (Le "Thunk") ---
-// Ce n'est pas un objet, mais une fonction ! Le middleware va l'intercepter.
+// --- 4. L'Action Asynchrone (Le "Thunk") MISE À JOUR ---
 const fetchUsers = () => {
   return async (dispatch) => {
-    // Étape A: On prévient l'UI qu'on commence à charger
     dispatch({ type: 'FETCH_USERS_REQUEST' });
     
     try {
-      // Étape B: On fait l'appel à la base de données
-      const [rows] = await dbPool.query('SELECT 1 as id, "test_user" as name'); // Remplace par une vraie table
+      // LA LIGNE QUI CHANGE : On utilise la nouvelle requête sécurisée !
+      const [users] = await dbPool.query('SELECT id, username, email, SC_balance, created_at FROM users');
       
-      // Étape C: Si ça réussit, on envoie les données à l'UI
-      dispatch({ type: 'FETCH_USERS_SUCCESS', payload: rows });
+      // On envoie les utilisateurs récupérés dans le payload.
+      dispatch({ type: 'FETCH_USERS_SUCCESS', payload: users });
     } catch (error) {
-      // Étape D: Si ça échoue, on envoie l'erreur
       dispatch({ type: 'FETCH_USERS_FAILURE', payload: error.message });
     }
   };
@@ -59,5 +62,5 @@ store.subscribe(() => {
   console.log('🔄 NOUVEL ÉTAT REÇU :', JSON.stringify(store.getState(), null, 2));
 });
 
-console.log('▶️ Lancement de l\'action asynchrone pour récupérer les utilisateurs...');
+console.log('▶️ Lancement de l\'action pour récupérer les utilisateurs depuis la VRAIE table...');
 store.dispatch(fetchUsers());
