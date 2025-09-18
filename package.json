@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "description": "Un gestionnaire de modèles IA pour accéder à une sélection de modèles Hugging Face avec un système de leasing.",
   "main": "index.js",
+  "bin": {
+        "dragon-cli": "./cli.js"
   "scripts": {
     "start": "node example.js",
     "test": "echo \"Error: no test specified\" && exit 1"
