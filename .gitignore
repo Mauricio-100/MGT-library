@@ -1,0 +1,23 @@
+# Fichier de secrets - NE JAMAIS PARTAGER
+# C'est la ligne la plus importante pour ta sécurité.
+.env
+
+# Dépendances
+# Ce dossier peut peser des centaines de mégaoctets et doit être
+# réinstallé avec "npm install", jamais stocké sur Git.
+/node_modules
+
+# Fichiers de log
+# Ces fichiers sont générés lors de l'exécution et ne concernent que toi.
+npm-debug.log*
+*.log
+yarn-debug.log*
+yarn-error.log*
+
+# Fichiers système (macOS, Windows)
+.DS_Store
+Thumbs.db
+
+# Dossiers de build (bonne pratique pour l'avenir)
+/dist
+/build```
